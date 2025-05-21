@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - JWT_SECRET=myjwtsecret
+      - MONGO_URI=mongodb://mongo:27017/pickeat
+    depends_on:
+      - mongo
+    networks:
+      - pickeat-network
+
+  mongo:
+    image: mongo:6.0
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - pickeat-network
+
+volumes:
+  mongo-data:
+
+networks:
+  pickeat-network:
+    driver: bridge
